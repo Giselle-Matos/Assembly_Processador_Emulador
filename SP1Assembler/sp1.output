@@ -1,0 +1,193 @@
+Terminals unused in grammar
+
+    STORE
+    ADD
+    SUB
+    MUL
+    DIV
+    INC
+    DEC
+    AND
+    OR
+    NOT
+    JMP
+    JZ
+    JNZ
+    JG
+    JL
+    JGE
+    JLE
+    HLT
+
+
+Grammar
+
+    0 $accept: program LOAD
+
+    1 program: %empty
+    2        | program line
+
+    3 line: EOL
+    4     | stm EOL
+
+    5 stm: INSTR
+    6    | INSTR NUMBER
+    7    | INSTR MEMORY
+    8    | INSTR LABEL
+    9    | LABEL ':'
+   10    | LABEL
+
+
+Terminals, with rules where they appear
+
+    LOAD <instr> (0) 0
+    STORE <instr> (2)
+    ADD <instr> (3)
+    SUB <instr> (4)
+    MUL <instr> (5)
+    DIV <instr> (6)
+    INC <instr> (7)
+    DEC <instr> (8)
+    AND <instr> (9)
+    OR <instr> (10)
+    NOT <instr> (11)
+    JMP <instr> (12)
+    JZ <instr> (13)
+    JNZ <instr> (14)
+    JG <instr> (15)
+    JL <instr> (16)
+    JGE <instr> (17)
+    JLE <instr> (18)
+    HLT <instr> (19)
+    ':' (58) 9
+    error (256)
+    NUMBER <number> (258) 6
+    MEMORY <number> (259) 7
+    INSTR (260) 5 6 7 8
+    LABEL <label> (261) 8 9 10
+    EOL (262) 3 4
+
+
+Nonterminals, with rules where they appear
+
+    $accept (27)
+        on left: 0
+    program (28)
+        on left: 1 2
+        on right: 0 2
+    line (29)
+        on left: 3 4
+        on right: 2
+    stm (30)
+        on left: 5 6 7 8 9 10
+        on right: 4
+
+
+State 0
+
+    0 $accept: • program LOAD
+
+    $default  reduce using rule 1 (program)
+
+    program  go to state 1
+
+
+State 1
+
+    0 $accept: program • LOAD
+    2 program: program • line
+
+    LOAD   shift, and go to state 2
+    INSTR  shift, and go to state 3
+    LABEL  shift, and go to state 4
+    EOL    shift, and go to state 5
+
+    line  go to state 6
+    stm   go to state 7
+
+
+State 2
+
+    0 $accept: program LOAD •
+
+    $default  accept
+
+
+State 3
+
+    5 stm: INSTR •
+    6    | INSTR • NUMBER
+    7    | INSTR • MEMORY
+    8    | INSTR • LABEL
+
+    NUMBER  shift, and go to state 8
+    MEMORY  shift, and go to state 9
+    LABEL   shift, and go to state 10
+
+    $default  reduce using rule 5 (stm)
+
+
+State 4
+
+    9 stm: LABEL • ':'
+   10    | LABEL •
+
+    ':'  shift, and go to state 11
+
+    $default  reduce using rule 10 (stm)
+
+
+State 5
+
+    3 line: EOL •
+
+    $default  reduce using rule 3 (line)
+
+
+State 6
+
+    2 program: program line •
+
+    $default  reduce using rule 2 (program)
+
+
+State 7
+
+    4 line: stm • EOL
+
+    EOL  shift, and go to state 12
+
+
+State 8
+
+    6 stm: INSTR NUMBER •
+
+    $default  reduce using rule 6 (stm)
+
+
+State 9
+
+    7 stm: INSTR MEMORY •
+
+    $default  reduce using rule 7 (stm)
+
+
+State 10
+
+    8 stm: INSTR LABEL •
+
+    $default  reduce using rule 8 (stm)
+
+
+State 11
+
+    9 stm: LABEL ':' •
+
+    $default  reduce using rule 9 (stm)
+
+
+State 12
+
+    4 line: stm EOL •
+
+    $default  reduce using rule 4 (line)
